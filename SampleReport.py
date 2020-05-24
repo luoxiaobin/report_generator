@@ -40,9 +40,10 @@ if __name__ == '__main__':
     config.read(os.path.dirname(os.path.realpath(__file__))+ '\\config.ini')
 
     #FileName = "daily_draw_down.sql"
-    SQLFileName = "film.sql"
+    SQLFileName = "get_name.sql"
     SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
-    column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
+    #column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
+    column, data  = DBInquiry.run_sql_SQLite(SQLFileName_FullPath, os.path.dirname(os.path.realpath(__file__)) +"\\test.db")
     
     ExcelFileName = SQLFileName.replace(".sql", ".xlsx")
     ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
