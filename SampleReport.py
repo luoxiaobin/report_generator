@@ -1,45 +1,59 @@
 """
 Created on 2020/05/23
 
-@author: kevin
+@author: Kevin Luo
 """
 #!/usr/bin/python
 import logging, time, configparser, os
 
+#custom library
 import DBInquiry
 import ExcelReport
 import send_email
 
 # Setup logger
 logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 log_file = __file__.replace(".py", ".log")
-logging.basicConfig(level=logging.INFO, filename=f'{log_file}', format='%(asctime)s %(levelname)s:%(message)s')
-handler = logging.StreamHandler()
+fh = logging.FileHandler(log_file)
+fh.setLevel(logging.DEBUG)
+
+#logging.basicConfig(level=logging.INFO, filename=f'{log_file}', format='%(asctime)s %(levelname)s:%(message)s')
+sh = logging.StreamHandler()
+sh.setLevel(logging.ERROR)
+
 formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
+
+fh.setFormatter(formatter)
+sh.setFormatter(formatter)
+
+logger.addHandler(fh)
+logger.addHandler(sh)
+
 
 if __name__ == '__main__':
 
-
+    logger.info(f"Program {__file__} started:")
     # read config.ini
     config = configparser.ConfigParser()
-    config.read(os.path.dirname(os.path.realpath(__file__))+ '\config.ini')
+    config.read(os.path.dirname(os.path.realpath(__file__))+ '\\config.ini')
 
     #FileName = "daily_draw_down.sql"
-    SQLFileName = "get_name.sql"
+    SQLFileName = "film.sql"
     SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
-    data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
+    column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
     
     ExcelFileName = SQLFileName.replace(".sql", ".xlsx")
     ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
 
-    ExcelReport.write_to_excel("List of name", data, ExcelFileName_FullPath)
+
+    logger.info(column)
+    ExcelReport.write_to_excel(report_name="Name List", column=column, data=data, file_name=ExcelFileName_FullPath)
 
     '''
-    send_email.send_email(email_recipient="kevin.luo@scotiabank.com", 
-                          email_subject=ExcelFileName + "({business_date})", 
-                          email_message="Daily Loan DrawDown Report ({business_date})", 
+    send_email.send_email(receiver_email="kevin.xiaobin.luo@gmail.com", 
+                          email_subject=ExcelFileName , 
+                          email_message="Test Message", 
                           attachment_location=ExcelFileName_FullPath)
     '''
