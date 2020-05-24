@@ -32,7 +32,7 @@ def write_to_excel(report_name, column, data, file_name):
 
         col_l = []
         for col in column:
-            col_l.append(col[0])
+            col_l.append(col)
 
         ws.append(col_l)
 
@@ -49,11 +49,13 @@ def write_to_excel(report_name, column, data, file_name):
 
         ws = wb["Sheet"]
         
-        for col in range(1, 26):
-            cell = ws.cell(column=col, row=2) 
+        #for col in range(1, 26):
+        for col in range(len(col_l)):            
+            cell = ws.cell(column=col+1, row=2) 
             cell.font = Font(bold=True)
+            ws.column_dimensions[get_column_letter(col+1)].auto_size = True        
 
-        for row in range(2, row_count+2):
+        for row in range(2, row_count+3):
             cell=ws.cell(column=1, row=row)
             cell.alignment = Alignment(horizontal="center", vertical="center")
 
@@ -62,10 +64,6 @@ def write_to_excel(report_name, column, data, file_name):
             
             cell=ws.cell(column=3, row=row)
             cell.number_format = u'#,##0.0000;'
-
-        #for col in range(ws.min_column, ws.max_column + 1):
-        for col in range(1,26):
-            ws.column_dimensions[get_column_letter(col)].auto_size = True        
 
         wb.save(f"{file_name}")  
 
@@ -82,9 +80,8 @@ if __name__ == '__main__':
     ExcelFileName = "test.xlsx"
     ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
 
-
-    #column = ["col1 header", "col2 header", "col3 header"]
-    column = [('title', 1043), ('number', 25), ('description', 25)]
+    #column = [('title', 1043), ('number', 25), ('description', 25)]
+    column = ['title', 'number', 'description']
 
     #data = [["col1 header", "col2 header","col3 header"],
     data = [["col1 row2", 12345.67, 0.1234567],

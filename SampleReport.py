@@ -50,6 +50,8 @@ if __name__ == '__main__':
 
 
     logger.info(column)
+    logger.info(data)
+    
     ExcelReport.write_to_excel(report_name="Name List", column=column, data=data, file_name=ExcelFileName_FullPath)
 
     '''
