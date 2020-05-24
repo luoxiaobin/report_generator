@@ -13,11 +13,29 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def run_sql_SQLite(SQLFile, SQLite_db_file):
+def run_sql(SQLFile):
+
+    # read config.ini
+    config = configparser.ConfigParser()
+    config.read(os.path.dirname(os.path.realpath(__file__))+ '//' +'database.ini')
+
+    database = config.get('General', 'database')
+
+    if (database == 'SQLite'):
+        (col_l, data) = run_sql_SQLite(SQLFile)
+        return col_l, data
+    else:
+        (col_l, data) = run_sql_postgres(SQLFile)
+        return col_l, data
+
+
+def run_sql_SQLite(SQLFile):
     
     # read config.ini
     config = configparser.ConfigParser()
     config.read(os.path.dirname(os.path.realpath(__file__))+ '//' +'database.ini')
+
+    SQLite_db_file = config.get('SQLite', 'db_file_name')
 
     if not os.path.isfile(SQLFile):
         logger.error(f"SQL file {SQLFile} doesn't exist!")
@@ -28,14 +46,13 @@ def run_sql_SQLite(SQLFile, SQLite_db_file):
     strSQL = f.read()
     f.close()
     
-    column = []
     data =[]
     conn = None
 
     try:
         #conn = psycopg2.connect(**db)
-        conn = sqlite3.connect(SQLite_db_file)
-        logger.debug(f"SQLite_db={SQLite_db_file}")
+        conn = sqlite3.connect(os.path.dirname(os.path.realpath(__file__))+ '//' + SQLite_db_file)
+        logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + SQLite_db_file}")
 
         cur = conn.cursor()
         cur.execute(strSQL)
@@ -150,7 +167,7 @@ if __name__ == '__main__':
     SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
-    column_l, data = run_sql_SQLite(SQLFileName, os.path.dirname(os.path.realpath(__file__)) + "\\test.db")
+    column_l, data = run_sql_SQLite(SQLFileName)
     
     logger.info (column_l)
 

@@ -43,7 +43,7 @@ if __name__ == '__main__':
     SQLFileName = "get_name.sql"
     SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
     #column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
-    column, data  = DBInquiry.run_sql_SQLite(SQLFileName_FullPath, os.path.dirname(os.path.realpath(__file__)) +"\\test.db")
+    column, data  = DBInquiry.run_sql(SQLFileName_FullPath)
     
     ExcelFileName = SQLFileName.replace(".sql", ".xlsx")
     ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     ExcelReport.write_to_excel(report_name="Name List", column=column, data=data, file_name=ExcelFileName_FullPath)
 
     '''
-    send_email.send_email(receiver_email="kevin.xiaobin.luo@gmail.com", 
+    send_email.send_email(receiver_email="someone@gmail.com", 
                           email_subject=ExcelFileName , 
                           email_message="Test Message", 
                           attachment_location=ExcelFileName_FullPath)
