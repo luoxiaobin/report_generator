@@ -36,8 +36,9 @@ def run_sql(SQLFile):
         database = config.get('postgresql', 'database')
         dbuser = config.get('postgresql', 'user')
         password = config.get('postgresql', 'password')
-
         conn = psycopg2.connect(f"host={host} port={port} dbname={database} user={dbuser} password={password}")
+    else:
+        logger.error("Can`t find database in ini file")
 
     # below code is generic for various database
     

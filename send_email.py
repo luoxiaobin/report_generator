@@ -63,4 +63,4 @@ def send_email(receiver_email,
 if __name__ == "__main__":
 
     file = os.path.dirname(os.path.realpath(__file__))+ "\\get_name.sql"
-    send_email("kevin.xiaobin.luo@gmail.com", "test", "This is a test", file)
+    send_email("someone@gmail.com", "test", "This is a test", file)
