@@ -10,7 +10,7 @@ import logging
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def send_email(receiver_email,
+def SendEmail(receiver_email,
                email_subject,
                email_message,
                attachment_location=''):
@@ -65,4 +65,4 @@ def send_email(receiver_email,
 if __name__ == "__main__":
 
     file = os.path.join(os.path.dirname(os.path.realpath(__file__)),"get_name.sql")
-    print (send_email("someone@gmail.com", "test", "This is a test", file))
+    print (SendEmail("someone@gmail.com", "test", "This is a test", file))
