@@ -17,7 +17,7 @@ def send_email(receiver_email,
 
     # read config.ini
     config = configparser.ConfigParser()
-    config.read(os.path.dirname(os.path.realpath(__file__))+ '\\config.ini')
+    config.read(os.path.join( os.path.dirname(os.path.realpath(__file__)), 'config.ini'))
 
     smtp_server = config.get('EMAIL', 'SMTP_SERVER')
     smtp_server_port = config.get('EMAIL', 'SMTP_Port')
@@ -57,10 +57,12 @@ def send_email(receiver_email,
     except Exception as e:
         logger.info(e)
         print('Something wrong')
+        return False
+
     return True
 
               
 if __name__ == "__main__":
 
-    file = os.path.dirname(os.path.realpath(__file__))+ "\\get_name.sql"
-    send_email("someone@gmail.com", "test", "This is a test", file)
+    file = os.path.join(os.path.dirname(os.path.realpath(__file__)),"get_name.sql")
+    print (send_email("someone@gmail.com", "test", "This is a test", file))

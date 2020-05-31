@@ -17,7 +17,7 @@ def run_sqlString(strSQL):
 
     # read config.ini
     config = configparser.ConfigParser()
-    config.read(os.path.dirname(os.path.realpath(__file__))+ '//' +'database.ini')
+    config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'database.ini'))
 
     database = config.get('General', 'database')
 
@@ -95,7 +95,7 @@ def run_sql(SQLFile):
 if __name__ == '__main__':
 
     SQLFileName = "get_name.sql"
-    SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "/" + SQLFileName
+    SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , SQLFileName)
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
     column_l, data = run_sql(SQLFileName_FullPath)

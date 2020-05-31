@@ -78,7 +78,7 @@ def write_to_excel(report_name, column, data, file_name):
 if __name__ == '__main__':
 
     ExcelFileName = "test.xlsx"
-    ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
+    ExcelFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), ExcelFileName)
 
     #column = [('title', 1043), ('number', 25), ('description', 25)]
     column = ['title', 'number', 'description']
@@ -88,3 +88,9 @@ if __name__ == '__main__':
             ["col1 row3", 12345.67, 0.1234567]]          
 
     write_to_excel(report_name='test', column=column, data=data,  file_name= ExcelFileName_FullPath)
+
+    wb = load_workbook(filename = f"{ExcelFileName_FullPath}") 
+    ws = wb["Sheet"]
+    
+    print (ws.cell(2, 1).value)
+    print (ws.cell(3, 1).value)
