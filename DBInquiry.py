@@ -13,17 +13,13 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def run_sql(SQLFile):
+def run_sqlString(strSQL):
 
     # read config.ini
     config = configparser.ConfigParser()
     config.read(os.path.dirname(os.path.realpath(__file__))+ '//' +'database.ini')
 
     database = config.get('General', 'database')
-
-    if not os.path.isfile(SQLFile):
-        logger.error(f"SQL file {SQLFile} doesn't exist!")
-        return "Error", ""
 
     conn = None
     if (database == 'SQLite'):
@@ -45,10 +41,6 @@ def run_sql(SQLFile):
 
     # below code is generic for various database
     try:
-
-        f=open(SQLFile,'r')
-        strSQL = f.read()
-        f.close()
 
         cur = conn.cursor()
         cur.execute(strSQL)
@@ -83,14 +75,34 @@ def run_sql(SQLFile):
         logger.warning("Something wrong in performing SQL query:")
         return ("","")
 
+def run_sql(SQLFile):
+
+    if not os.path.isfile(SQLFile):
+        logger.error(f"SQL file {SQLFile} doesn't exist!")
+        return "Error", ""
+
+    try:
+        f=open(SQLFile,'r')
+        strSQL = f.read()
+        f.close()
+    except (Exception):
+        logger.warning(f"Can't read from {SQLFile}")
+        return ("","")
+
+    return run_sqlString(strSQL)
+
+
 if __name__ == '__main__':
 
     SQLFileName = "get_name.sql"
-    SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
+    SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "/" + SQLFileName
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
-    column_l, data = run_sql(SQLFileName)
+    column_l, data = run_sql(SQLFileName_FullPath)
+    print (column_l)
+    print(data)
     
+    column_l, data = run_sqlString ("select * from address")
     logger.info (column_l)
 
     print (column_l)
