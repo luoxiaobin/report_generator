@@ -30,19 +30,19 @@ def write_to_excel(report_name, column, data, file_name):
         cell.font = Font(size =20, bold=True)
         cell.alignment = Alignment(horizontal="left", vertical="center")
 
-        ColumnList = []
+        column_list = []
         for col in column:
-            ColumnList.append(col)
+            column_list.append(col)
 
-        ws.append(ColumnList)
+        ws.append(column_list)
 
-        RecordCount = 0
+        record_count = 0
         for rec in data:
             ws.append(list(rec))
-            RecordCount = RecordCount + 1
+            record_count = record_count + 1
         
         wb.save(f"{file_name}")  
-        logger.info(f"Total {RecordCount} records inserted into excel file")
+        logger.info(f"Total {record_count} records inserted into excel file")
 
         # doing formatting of the excel
         wb = load_workbook(filename = f"{file_name}") 
@@ -50,12 +50,12 @@ def write_to_excel(report_name, column, data, file_name):
         ws = wb["Sheet"]
         
         #for col in range(1, 26):
-        for col in range(len(ColumnList)):            
+        for col in range(len(column_list)):            
             cell = ws.cell(column=col+1, row=2) 
             cell.font = Font(bold=True)
             ws.column_dimensions[get_column_letter(col+1)].auto_size = True        
 
-        for row in range(2, RecordCount+3):
+        for row in range(2, record_count+3):
             cell=ws.cell(column=1, row=row)
             cell.alignment = Alignment(horizontal="center", vertical="center")
 
