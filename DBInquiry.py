@@ -13,7 +13,7 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def run_sql_string(strSQL):
+def run_sql_string(sql_string):
 
     # read config.ini
     config = configparser.ConfigParser()
@@ -23,9 +23,9 @@ def run_sql_string(strSQL):
 
     conn = None
     if (database == 'SQLite'):
-        SQLiteDBFile = config.get('SQLite', 'db_file_name')
-        logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + SQLiteDBFile}")
-        conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.realpath(__file__)), SQLiteDBFile))
+        sqlite_db_file = config.get('SQLite', 'db_file_name')
+        logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + sqlite_db_file}")
+        conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.realpath(__file__)), sqlite_db_file))
     elif (database == 'postgres'):
         # get section, default to postgresql
         host = config.get('postgresql', 'host')
@@ -43,7 +43,7 @@ def run_sql_string(strSQL):
     try:
 
         cur = conn.cursor()
-        cur.execute(strSQL)
+        cur.execute(sql_string)
 
         logger.info(f"The number of records: {cur.rowcount}")
 
@@ -83,13 +83,13 @@ def run_sql_file(sql_file):
 
     try:
         f=open(sql_file,'r')
-        strSQL = f.read()
+        sql_string = f.read()
         f.close()
     except (Exception):
         logger.warning(f"Can't read from {sql_file}")
         return ("","")
 
-    return run_sql_string(strSQL)
+    return run_sql_string(sql_string)
 
 
 if __name__ == '__main__':
