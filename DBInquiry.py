@@ -13,7 +13,7 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def RunSQLString(strSQL):
+def run_SQL_string(strSQL):
 
     # read config.ini
     config = configparser.ConfigParser()
@@ -75,7 +75,7 @@ def RunSQLString(strSQL):
         logger.warning("Something wrong in performing SQL query:")
         return ("","")
 
-def RunSQLFile(SQLFile):
+def run_SQL_file(SQLFile):
 
     if not os.path.isfile(SQLFile):
         logger.error(f"SQL file {SQLFile} doesn't exist!")
@@ -89,7 +89,7 @@ def RunSQLFile(SQLFile):
         logger.warning(f"Can't read from {SQLFile}")
         return ("","")
 
-    return RunSQLString(strSQL)
+    return run_SQL_string(strSQL)
 
 
 if __name__ == '__main__':
@@ -98,11 +98,11 @@ if __name__ == '__main__':
     SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , SQLFileName)
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
-    column_l, data = RunSQLFile(SQLFileName_FullPath)
+    column_l, data = run_SQL_file(SQLFileName_FullPath)
     print (column_l)
     print(data)
     
-    column_l, data = RunSQLString ("select * from address")
+    column_l, data = run_SQL_string ("select * from address")
     logger.info (column_l)
 
     print (column_l)

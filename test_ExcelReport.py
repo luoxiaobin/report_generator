@@ -3,7 +3,7 @@ import os
 import pytest
 from openpyxl.reader.excel import load_workbook
 
-def TestExcelReport():
+def test_Excel_report():
 
     ExcelFileName = "test.xlsx"
     ExcelFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), ExcelFileName)
