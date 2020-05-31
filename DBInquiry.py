@@ -13,7 +13,7 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def run_SQL_string(strSQL):
+def run_sql_string(strSQL):
 
     # read config.ini
     config = configparser.ConfigParser()
@@ -53,43 +53,43 @@ def run_SQL_string(strSQL):
         for row in rows:
             row = cur.fetchone()
 
-        ColList = []
+        column_list = []
         for i in range(len(columns_descr)):
-            ColList.append(columns_descr[i][0])
+            column_list.append(columns_descr[i][0])
 
         data =[]
-        RecordCount = 0
+        rec_count = 0
         for row in rows:
-            RecordCount = RecordCount + 1
+            rec_count = rec_count + 1
             data.append(row)
 
-        logger.info(f"Total {RecordCount} records processed")
+        logger.info(f"Total {rec_count} records processed")
 
         cur.close()
         conn.close()
         logger.debug("Database connection closed")
-        return (ColList, data)
+        return (column_list, data)
 
 
     except (Exception, psycopg2.DatabaseError):
         logger.warning("Something wrong in performing SQL query:")
         return ("","")
 
-def run_SQL_file(SQLFile):
+def run_sql_file(sql_file):
 
-    if not os.path.isfile(SQLFile):
-        logger.error(f"SQL file {SQLFile} doesn't exist!")
+    if not os.path.isfile(sql_file):
+        logger.error(f"SQL file {sql_file} doesn't exist!")
         return "Error", ""
 
     try:
-        f=open(SQLFile,'r')
+        f=open(sql_file,'r')
         strSQL = f.read()
         f.close()
     except (Exception):
-        logger.warning(f"Can't read from {SQLFile}")
+        logger.warning(f"Can't read from {sql_file}")
         return ("","")
 
-    return run_SQL_string(strSQL)
+    return run_sql_string(strSQL)
 
 
 if __name__ == '__main__':
@@ -98,11 +98,11 @@ if __name__ == '__main__':
     SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , SQLFileName)
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
-    column_l, data = run_SQL_file(SQLFileName_FullPath)
+    column_l, data = run_sql_file(SQLFileName_FullPath)
     print (column_l)
     print(data)
     
-    column_l, data = run_SQL_string ("select * from address")
+    column_l, data = run_sql_string ("select * from address")
     logger.info (column_l)
 
     print (column_l)

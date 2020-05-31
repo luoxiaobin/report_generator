@@ -43,7 +43,7 @@ if __name__ == '__main__':
     SQLFileName = "get_name.sql"
     SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), SQLFileName)
     #column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
-    column, data  = DBInquiry.run_SQL_file(SQLFileName_FullPath)
+    column, data  = DBInquiry.run_sql_file(SQLFileName_FullPath)
     
     ExcelFileName = SQLFileName.replace(".sql", ".xlsx")
     ExcelFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) ,ExcelFileName)
