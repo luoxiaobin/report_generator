@@ -30,19 +30,19 @@ def write_to_excel(report_name, column, data, file_name):
         cell.font = Font(size =20, bold=True)
         cell.alignment = Alignment(horizontal="left", vertical="center")
 
-        col_l = []
+        column_list = []
         for col in column:
-            col_l.append(col)
+            column_list.append(col)
 
-        ws.append(col_l)
+        ws.append(column_list)
 
-        row_count = 0
+        record_count = 0
         for rec in data:
             ws.append(list(rec))
-            row_count = row_count + 1
+            record_count = record_count + 1
         
         wb.save(f"{file_name}")  
-        logger.info(f"Total {row_count} records inserted into excel file")
+        logger.info(f"Total {record_count} records inserted into excel file")
 
         # doing formatting of the excel
         wb = load_workbook(filename = f"{file_name}") 
@@ -50,12 +50,12 @@ def write_to_excel(report_name, column, data, file_name):
         ws = wb["Sheet"]
         
         #for col in range(1, 26):
-        for col in range(len(col_l)):            
+        for col in range(len(column_list)):            
             cell = ws.cell(column=col+1, row=2) 
             cell.font = Font(bold=True)
             ws.column_dimensions[get_column_letter(col+1)].auto_size = True        
 
-        for row in range(2, row_count+3):
+        for row in range(2, record_count+3):
             cell=ws.cell(column=1, row=row)
             cell.alignment = Alignment(horizontal="center", vertical="center")
 
@@ -78,7 +78,7 @@ def write_to_excel(report_name, column, data, file_name):
 if __name__ == '__main__':
 
     ExcelFileName = "test.xlsx"
-    ExcelFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), ExcelFileName)
+    ExcelFileNameFullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), ExcelFileName)
 
     #column = [('title', 1043), ('number', 25), ('description', 25)]
     column = ['title', 'number', 'description']
@@ -87,9 +87,9 @@ if __name__ == '__main__':
     data = [["col1 row2", 12345.67, 0.1234567],
             ["col1 row3", 12345.67, 0.1234567]]          
 
-    write_to_excel(report_name='test', column=column, data=data,  file_name= ExcelFileName_FullPath)
+    write_to_excel(report_name='test', column=column, data=data,  file_name= ExcelFileNameFullPath)
 
-    wb = load_workbook(filename = f"{ExcelFileName_FullPath}") 
+    wb = load_workbook(filename = f"{ExcelFileNameFullPath}") 
     ws = wb["Sheet"]
     
     print (ws.cell(2, 1).value)

@@ -9,7 +9,7 @@ import logging, time, configparser, os
 #custom library
 import DBInquiry
 import ExcelReport
-import send_email
+import SendEmail
 
 # Setup logger
 logger = logging.getLogger()
@@ -37,16 +37,16 @@ if __name__ == '__main__':
     logger.info(f"Program {__file__} started:")
     # read config.ini
     config = configparser.ConfigParser()
-    config.read(os.path.dirname(os.path.realpath(__file__))+ '\\config.ini')
+    config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)),'config.ini'))
 
     #FileName = "daily_draw_down.sql"
     SQLFileName = "get_name.sql"
-    SQLFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + SQLFileName
+    SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), SQLFileName)
     #column, data  = DBInquiry.run_sql_postgres(SQLFileName_FullPath)
-    column, data  = DBInquiry.run_sql(SQLFileName_FullPath)
+    column, data  = DBInquiry.run_sql_file(SQLFileName_FullPath)
     
     ExcelFileName = SQLFileName.replace(".sql", ".xlsx")
-    ExcelFileName_FullPath = os.path.dirname(os.path.realpath(__file__)) + "\\" + ExcelFileName
+    ExcelFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) ,ExcelFileName)
 
 
     logger.info(column)

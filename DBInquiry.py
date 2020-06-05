@@ -13,7 +13,7 @@ import sqlite3
 # Setup logger
 logger = logging.getLogger(__name__)
 
-def run_sqlString(strSQL):
+def run_sql_string(sql_string):
 
     # read config.ini
     config = configparser.ConfigParser()
@@ -23,9 +23,9 @@ def run_sqlString(strSQL):
 
     conn = None
     if (database == 'SQLite'):
-        SQLite_db_file = config.get('SQLite', 'db_file_name')
-        logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + SQLite_db_file}")
-        conn = sqlite3.connect(os.path.dirname(os.path.realpath(__file__))+ '//' + SQLite_db_file)
+        sqlite_db_file = config.get('SQLite', 'db_file_name')
+        logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + sqlite_db_file}")
+        conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.realpath(__file__)), sqlite_db_file))
     elif (database == 'postgres'):
         # get section, default to postgresql
         host = config.get('postgresql', 'host')
@@ -43,7 +43,7 @@ def run_sqlString(strSQL):
     try:
 
         cur = conn.cursor()
-        cur.execute(strSQL)
+        cur.execute(sql_string)
 
         logger.info(f"The number of records: {cur.rowcount}")
 
@@ -53,9 +53,9 @@ def run_sqlString(strSQL):
         for row in rows:
             row = cur.fetchone()
 
-        col_l = []
+        column_list = []
         for i in range(len(columns_descr)):
-            col_l.append(columns_descr[i][0])
+            column_list.append(columns_descr[i][0])
 
         data =[]
         rec_count = 0
@@ -68,28 +68,28 @@ def run_sqlString(strSQL):
         cur.close()
         conn.close()
         logger.debug("Database connection closed")
-        return (col_l, data)
+        return (column_list, data)
 
 
     except (Exception, psycopg2.DatabaseError):
         logger.warning("Something wrong in performing SQL query:")
         return ("","")
 
-def run_sql(SQLFile):
+def run_sql_file(sql_file):
 
-    if not os.path.isfile(SQLFile):
-        logger.error(f"SQL file {SQLFile} doesn't exist!")
+    if not os.path.isfile(sql_file):
+        logger.error(f"SQL file {sql_file} doesn't exist!")
         return "Error", ""
 
     try:
-        f=open(SQLFile,'r')
-        strSQL = f.read()
+        f=open(sql_file,'r')
+        sql_string = f.read()
         f.close()
     except (Exception):
-        logger.warning(f"Can't read from {SQLFile}")
+        logger.warning(f"Can't read from {sql_file}")
         return ("","")
 
-    return run_sqlString(strSQL)
+    return run_sql_string(sql_string)
 
 
 if __name__ == '__main__':
@@ -98,11 +98,11 @@ if __name__ == '__main__':
     SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , SQLFileName)
     #column_l, data = run_sql_postgres(SQLFileName_FullPath)
 
-    column_l, data = run_sql(SQLFileName_FullPath)
+    column_l, data = run_sql_file(SQLFileName_FullPath)
     print (column_l)
     print(data)
     
-    column_l, data = run_sqlString ("select * from address")
+    column_l, data = run_sql_string ("select * from address")
     logger.info (column_l)
 
     print (column_l)
