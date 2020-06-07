@@ -31,7 +31,7 @@ jobs:
     - name: checking
       run: ls -lstr /home/runner/work/report_generator
 
-  sonarCloudTrigger
+  sonarCloudTrigger:
     needs: build
     name: SonarCloud Trigger
     runs-on: ubuntu-latest
