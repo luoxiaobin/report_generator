@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env: 
-      PYTHONPATH: /home/runner/work/report_generator/report_generator
+      PYTHONPATH: /home/runner/work/report_generator/report_generator:${PYTHONPATH}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
