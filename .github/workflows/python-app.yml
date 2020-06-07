@@ -38,8 +38,10 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
+    - name: checking
+      run: pwd:ls -lstr
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.3
       with:
         # Set the sonar.projectBaseDir analysis property
-        projectBaseDir: .
+        projectBaseDir: /home/runner/work/report_generator
