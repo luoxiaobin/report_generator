@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checking
-      run: ls -lstr
+      run: ls -lstr /home/runner/work/report_generator/report_generator
     - name: SonarCloud Scan 
       uses: SonarSource/sonarcloud-github-action@v1.3 
       with:
