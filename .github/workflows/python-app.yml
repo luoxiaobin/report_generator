@@ -41,7 +41,7 @@ jobs:
     - name: checking
       run: ls -lstr
     - name: SonarCloud Scan 
-      uses: SonarSource/sonarcloud-github-action@v1.3 -Dproject.settings=/home/runner/work/report_generator/report_generator/sonar-project.properties
+      uses: SonarSource/sonarcloud-github-action@v1.3 
       with:
         # Set the sonar.projectBaseDir analysis property
         projectBaseDir: /home/runner/work/report_generator/report_generator
