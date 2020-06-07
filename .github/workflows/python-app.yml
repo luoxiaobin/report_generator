@@ -28,8 +28,6 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: checking
-      run: ls -lstr /home/runner/work/report_generator
 
   SonarCloudTrigger:
     needs: build
