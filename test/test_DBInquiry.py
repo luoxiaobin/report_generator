@@ -1,5 +1,8 @@
+import sys
+sys.path.append('..')
+
 import DBInquiry
-import os, sys
+import os
 import pytest
 
 def test_DBInquiry_by_string():

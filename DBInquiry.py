@@ -94,11 +94,15 @@ def run_sql_file(sql_file):
 
 if __name__ == '__main__':
 
-    SQLFileName = "get_name.sql"
-    SQLFileName_FullPath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , SQLFileName)
-    #column_l, data = run_sql_postgres(SQLFileName_FullPath)
+    sql_filename_fullpath = os.path.join(os.path.dirname(os.path.realpath(__file__)) , "test.sql")
 
-    column_l, data = run_sql_file(SQLFileName_FullPath)
+    if os.path.isfile(sql_filename_fullpath):
+        os.remove(sql_filename_fullpath)
+
+    with open(sql_filename_fullpath, "w") as sql_test_file:
+        sql_test_file.write("select * from address")
+
+    column_l, data = run_sql_file(sql_filename_fullpath)
     print (column_l)
     print(data)
     
