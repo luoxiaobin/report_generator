@@ -65,4 +65,4 @@ def send_email(receiver_email,
 if __name__ == "__main__":
 
     file = os.path.join(os.path.dirname(os.path.realpath(__file__)),"get_name.sql")
-    print (send_email("someone@gmail.com", "test", "This is a test", file))
+    print (send_email("someone@gmail.com", "test", "This is a test", file)) # sensitive
