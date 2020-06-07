@@ -49,7 +49,7 @@ def send_email(receiver_email,
         session.starttls() #enable security
         session.login(sender_email, sender_pass) #login with mail_id and password
         text = msg.as_string()
-        session.sendmail(sender_email, receiver_email, text)
+        session.sendmail(sender_email, receiver_email, text) #Sensitive
         session.quit()
         logger.info(f'Email sent to {receiver_email} successfully')
         print('Mail Sent')
