@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
       - name: Analyzing Python code with SonarCloud
         uses: sonarsource/sonarcloud-github-action@v2
         env:
@@ -54,5 +54,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Integration test
         run: |
-          python home/runner/work/report_generator/DBInquiry.py
-          python home/runner/work/report_generator/ExcelReport.py
+          python home/runner/work/report_generator/report_generator/DBInquiry.py
+          python home/runner/work/report_generator/report_generator/ExcelReport.py
