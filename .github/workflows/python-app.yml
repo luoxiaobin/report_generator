@@ -50,7 +50,9 @@ jobs:
     name: Integration Test
     runs-on: ubuntu-latest
     steps:
-      - run: echo Should run integration tests.
-        python home/runner/work/report_generator/DBInquiry.py
-        python home/runner/work/report_generator/ExcelReport.py
-      
+      - name: Clone Repository
+        uses: actions/checkout@v2
+      - name: Integration test
+        run: |
+          python home/runner/work/report_generator/DBInquiry.py
+          python home/runner/work/report_generator/ExcelReport.py
