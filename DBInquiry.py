@@ -19,20 +19,20 @@ def run_sql_string(sql_string):
     config = configparser.ConfigParser()
     config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'database.ini'))
 
-    database = config.get('General', 'database')
+    db_type = config.get('General', 'db_type')
 
     conn = None
-    if (database == 'SQLite'):
-        sqlite_db_file = config.get('SQLite', 'db_file_name')
+    if (db_type == 'SQLite'):
+        sqlite_db_file = config.get(db_type, 'db_file_name')
         logger.debug(f"SQLite_db={os.path.dirname(os.path.realpath(__file__))+ '//' + sqlite_db_file}")
         conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.realpath(__file__)), sqlite_db_file))
-    elif (database == 'postgres'):
+    elif (db_type == 'postgres'):
         # get section, default to postgresql
-        host = config.get('postgresql', 'host')
-        port = config.get('postgresql', 'port')
-        database = config.get('postgresql', 'database')
-        dbuser = config.get('postgresql', 'user')
-        password = config.get('postgresql', 'password')
+        host = config.get(db_type, 'host')
+        port = config.get(db_type, 'port')
+        database = config.get(db_type, 'database')
+        dbuser = config.get(db_type, 'user')
+        password = config.get(db_type, 'password')
         logger.debug(f"Connecting postgres host={host} port={port} dbname={database} user={dbuser} password=???")
         conn = psycopg2.connect(f"host={host} port={port} dbname={database} user={dbuser} password={password}")
     else:
